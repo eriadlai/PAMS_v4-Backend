@@ -1,0 +1,29 @@
+{
+  "name": "pams_v4-backend",
+  "version": "1.0.0",
+  "description": "Repositorio para almacenar y controlar las versiones de desarrollo del backend del sistema PAMS_v4",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon -L src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eriadlai/PAMS_v4-Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eriadlai/PAMS_v4-Backend/issues"
+  },
+  "homepage": "https://github.com/eriadlai/PAMS_v4-Backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongodb": "^5.6.0",
+    "mongoose": "^7.3.1",
+    "nodemon": "^1.14.9"
+  }
+}
