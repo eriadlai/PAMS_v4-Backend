@@ -8,5 +8,5 @@ router.patch("/update", oUsuarioController.updateUsuario);
 router.post("/insert", oUsuarioController.insertUsuario);
 router.patch("/delete", oUsuarioController.deleteUsuario);
 router.patch("/update/password", oUsuarioController.updatePassword);
-
+router.post("/login", oUsuarioController.getLogin);
 module.exports = router;
