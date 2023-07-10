@@ -3,9 +3,6 @@ const jwt = require("jsonwebtoken");
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
-// ** NOTE **
-// res.locals.user has properties id and type as in the jwt itself.
-
 const adminAuth = (req, res, next) => {
   const authHeader = req.header("authorization");
   const token = authHeader && authHeader.split(" ")[1];

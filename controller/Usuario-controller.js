@@ -1,13 +1,15 @@
 const { ObjectId } = require("mongodb");
 const { oMongoDB } = require("../src/database");
 const { verifyPassword, hashPassword } = require("../helpers/hashing");
+const oFunctions = require("../helpers/functions");
+const { generateToken } = require("../helpers/tokens");
 
 const getAllUsuarios = async (req, res) => {
   let oCollection = await oMongoDB().collection("Usuario");
   let oQuery = { isActive: 1 };
   let oResult = await oCollection
     .find(oQuery, {})
-    .project({ password: 0, isActive: 0 })
+    .project({ password: 0, isActive: 0, token: 0 })
     .limit(50)
     .toArray();
   res.send(oResult).status(200);
@@ -30,6 +32,7 @@ const insertUsuario = async (req, res) => {
   let oNewUsuario = req.body;
   oNewUsuario.Roles = new ObjectId(oNewUsuario.Roles);
   oNewUsuario.password = await hashPassword(oNewUsuario.password);
+  oNewUsuario.token = "";
   let oResult = await oCollection.insertOne(oNewUsuario);
   res.send(oResult).status(204);
 };
@@ -92,10 +95,28 @@ const getLogin = async (req, res) => {
   else hashedPassword = oResult.password;
   const isValid = await verifyPassword(oPass, hashedPassword);
 
-  if (!isValid) res.send("CREDENCIALES INVALIDAS").status(401);
-  else res.send(oResult).status(200);
+  if (!isValid) {
+    res.send("CREDENCIALES INVALIDAS").status(401);
+    return;
+  }
+  const oRolInfo = await oFunctions.getRolInfo(oResult.Roles);
+  oResult.Roles = oRolInfo.nombre;
+  const oToken = generateToken(oResult._id, oRolInfo.nombre);
+  oFunctions.updateTokenUsuario(oResult._id, oToken);
+  res.send(oResult).status(200);
 };
-
+const getTokenByID = async (req, res) => {
+  const { oID } = req.body;
+  let oCollection = await oMongoDB().collection("Usuario");
+  let oQuery = { _id: new ObjectId(oID), isActive: 1 };
+  let oResult = await oCollection.findOne(oQuery, {
+    projection: {
+      token: 1,
+    },
+  });
+  if (!oResult) res.send("NOT FOUND").status(404);
+  else return oResult;
+};
 module.exports = {
   getAllUsuarios,
   getOneUsuario,
@@ -104,5 +125,6 @@ module.exports = {
   deleteUsuario,
   updatePassword,
   getLogin,
+  getTokenByID,
 };
 //*! LINEA PARA INGRESAR ARRAY DENTRO DE COLECCION $push: { nombreColumna: VariableInfo} */
