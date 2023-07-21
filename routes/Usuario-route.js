@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const oUsuarioController = require("../controller/Usuario-controller");
 const oMiddleware = require("../helpers/auth");
-router.get("/all", oMiddleware.adminAuth, oUsuarioController.getAllUsuarios);
+router.post("/all", oMiddleware.adminAuth, oUsuarioController.getAllUsuarios);
 router.post("/byid", oMiddleware.adminAuth, oUsuarioController.getOneUsuario);
 router.patch(
   "/update",

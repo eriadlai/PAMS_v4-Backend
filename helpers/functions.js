@@ -1,5 +1,6 @@
 const { ObjectId } = require("mongodb");
 const { oMongoDB } = require("../src/database");
+const { generateToken } = require("./tokens");
 
 const getTokenUsuario = async (oID) => {
   let oCollection = await oMongoDB().collection("Usuario");
@@ -30,12 +31,13 @@ const getRolInfo = async (oID) => {
   else return oResult;
 };
 const resetToken = async (oRol, oID) => {
-  const oToken = generateToken(oID, oRol);
-  oFunctions.updateTokenUsuario(oID, oToken);
+  const oToken = generateToken(new ObjectId(oID), oRol);
+  updateTokenUsuario(oID, oToken);
   return oToken;
 };
 module.exports = {
   getTokenUsuario,
   updateTokenUsuario,
   getRolInfo,
+  resetToken,
 };
