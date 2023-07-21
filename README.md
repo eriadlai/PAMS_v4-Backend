@@ -9,6 +9,8 @@ Repositorio para almacenar y controlar las versiones de desarrollo del backend d
 ->>. npm i dotenv
 ->>. npm i mongodb
 ->>. npm i cors
+->>. npm i bcrypt
+->>. npm i jsonwebtoken
 ->>. Ingresar en package.json, dentro de la seccion scripts, la siguiente linea:
 "start": "nodemon -L src/server.js"
 

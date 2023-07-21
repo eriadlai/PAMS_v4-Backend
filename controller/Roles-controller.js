@@ -5,7 +5,14 @@ const getAllRoles = async (req, res) => {
   let oResult = await oCollection.find({}).limit(50).toArray();
   res.send(oResult).status(200);
 };
-
+const getOneRoles = async (req, res) => {
+  const { oID } = req.body;
+  let oCollection = await oMongoDB().collection("Roles");
+  let oQuery = { _id: new ObjectId(oID), isActive: 1 };
+  let oResult = await oCollection.findOne(oQuery);
+  if (!oResult) res.send("NOT FOUND").status(404);
+  else res.send(oResult).status(200);
+};
 const insertRoles = async (req, res) => {
   let oCollection = await oMongoDB().collection("Roles");
   let oNewRol = req.body;
@@ -28,4 +35,5 @@ module.exports = {
   getAllRoles,
   insertRoles,
   updateRoles,
+  getOneRoles,
 };
