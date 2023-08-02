@@ -9,6 +9,7 @@ const cors = require("cors");
  */
 const oUsuarioRoute = require("./routes/Usuario-route");
 const oRolesRoute = require("./routes/Roles-route");
+const oPacienteRoute = require("./routes/Paciente-route");
 /*
  * CONFIGURACION GENERAL
  */
@@ -18,4 +19,5 @@ app.use(express.json());
 app.use(cors({ credentials: false, origin: "*" }));
 app.use("/usuario", oUsuarioRoute);
 app.use("/roles", oRolesRoute);
+app.use("/paciente", oPacienteRoute);
 app.listen(port, () => console.log(`SERVIDOR ACTIVO EN PUERTO: ${port}`));

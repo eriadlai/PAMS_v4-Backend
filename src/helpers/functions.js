@@ -35,9 +35,77 @@ const resetToken = async (oRol, oID) => {
   updateTokenUsuario(oID, oToken);
   return oToken;
 };
+const setAspectoConsumo = async () => {
+  let oCollection = await oMongoDB().collection("AspectoConsumo");
+  let oNewAspectoConsumo = {
+    problemasSalud: "",
+    consumoMedicamento: "",
+    razonConsumoInicial: "",
+    edadConsumo: "",
+    razonProblematica: "",
+    edadProblematica: "",
+    frecuenciaConsumo: "",
+    cantidadConsumo: "",
+    tiempoConsumo: "",
+    lapsoConsumo: "",
+    duracionEpisodio: "",
+    consumoSemanal: "",
+    razonDejarConsumo: "",
+    escalaDejarConsumo: "",
+    porcentajeSalario: "",
+    cantDejarConsumo: "",
+    maxPeriodoAbst: "",
+    razonAbstinencia: "",
+    infAdicional: "",
+    isActive: 1,
+    ControlConsumo: {
+      nombre: "",
+    },
+    ImporanciaConsumo: {
+      nombre: "",
+    },
+    NivelProblematica: {
+      nombre: "",
+    },
+    Conflictos: {
+      diasNoTrabajados: "",
+      cantPerdidaEmpleo: "",
+      cantArrestos: "",
+    },
+    Hospitalizacion: {
+      cantVisitas: "",
+      diasInternado: "",
+      condicion: "",
+      medidas: "",
+    },
+    ProblemasFam: {
+      nombre: "",
+    },
+    ProblemasPareja: {
+      nombre: "",
+    },
+    ProblemasSociales: {
+      nombre: "",
+    },
+    ProblemasLaboral: {
+      nombre: "",
+    },
+    ProblemasLegales: {
+      nombre: "",
+    },
+    ProblemasSalud: {
+      nombre: "",
+    },
+  };
+
+  const result = await oCollection.insertOne(oNewAspectoConsumo);
+  console.log(result.insertedId, "==1==");
+  return result.insertedId;
+};
 module.exports = {
   getTokenUsuario,
   updateTokenUsuario,
   getRolInfo,
   resetToken,
+  setAspectoConsumo,
 };
