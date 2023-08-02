@@ -7,8 +7,8 @@ const cors = require("cors");
 /*
  * IMPORTACION DE RUTAS
  */
-const oUsuarioRoute = require("../routes/Usuario-route");
-const oRolesRoute = require("../routes/Roles-route");
+const oUsuarioRoute = require("./routes/Usuario-route");
+const oRolesRoute = require("./routes/Roles-route");
 /*
  * CONFIGURACION GENERAL
  */
