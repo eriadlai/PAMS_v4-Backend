@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb");
-const { oMongoDB } = require("../src/database");
+const { oMongoDB } = require("../database");
 const { generateToken } = require("./tokens");
 
 const getTokenUsuario = async (oID) => {

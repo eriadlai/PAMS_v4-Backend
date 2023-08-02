@@ -1,4 +1,4 @@
-const { oMongoDB } = require("../src/database");
+const { oMongoDB } = require("../database");
 
 const getAllRoles = async (req, res) => {
   let oCollection = await oMongoDB().collection("Roles");
