@@ -23,15 +23,14 @@ const insertPaciente = async (req, res) => {
   let oCollection = await oMongoDB().collection("Paciente");
   let oNewPaciente = req.body;
   const oAspectoConsumoID = await oFunctions.setAspectoConsumo();
-  console.log(oAspectoConsumoID, "====");
-  //   delete oNewPaciente.oUserID;
-  //   delete oNewPaciente.oUserRol;
-  //   oNewPaciente.fechaRegistro = Date.now();
-  //   oNewPaciente.noExpediente = (await oCollection.countDocuments()) + 1;
-  //   oNewPaciente.AspectoConsumo = new ObjectId(oAspectoConsumoID);
-  //   let oResult = await oCollection.insertOne(oNewPaciente);
-  //   oFunctions.resetToken(oUserRol, oUserID);
-  res.send(oAspectoConsumoID).status(204);
+  delete oNewPaciente.oUserID;
+  delete oNewPaciente.oUserRol;
+  oNewPaciente.fechaRegistro = new Date().toJSON().slice(0, 10);
+  oNewPaciente.noExpediente = (await oCollection.countDocuments()) + 1;
+  oNewPaciente.AspectoConsumo = oAspectoConsumoID;
+  let oResult = await oCollection.insertOne(oNewPaciente);
+  oFunctions.resetToken(oUserRol, oUserID);
+  res.send(oResult).status(204);
 };
 const updatePaciente = async (req, res) => {
   const {
@@ -79,7 +78,17 @@ const deletePaciente = async (req, res) => {
     },
   };
   let oCollection = await oMongoDB().collection("Paciente");
+  let oCollectionAspectosConsumo = await oMongoDB().collection(
+    "AspectoConsumo"
+  );
+  let oAspectoID = await oCollection.findOne(oQuery);
+  const oQueryAspecto = { _id: new ObjectId(oAspectoID.AspectoConsumo) };
   let oResult = await oCollection.updateOne(oQuery, oUpdate);
+  let oResult2 = await oCollectionAspectosConsumo.updateOne(
+    oQueryAspecto,
+    oUpdate
+  );
+  console.log(oResult2);
   oFunctions.resetToken(oUserRol, oUserID);
   res.send(oResult).status(200);
 };

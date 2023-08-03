@@ -36,70 +36,52 @@ const resetToken = async (oRol, oID) => {
   return oToken;
 };
 const setAspectoConsumo = async () => {
+  console.log("ENTRO EN LA FUNCION====");
   let oCollection = await oMongoDB().collection("AspectoConsumo");
-  let oNewAspectoConsumo = {
-    problemasSalud: "",
-    consumoMedicamento: "",
-    razonConsumoInicial: "",
-    edadConsumo: "",
-    razonProblematica: "",
-    edadProblematica: "",
-    frecuenciaConsumo: "",
-    cantidadConsumo: "",
-    tiempoConsumo: "",
-    lapsoConsumo: "",
-    duracionEpisodio: "",
-    consumoSemanal: "",
-    razonDejarConsumo: "",
-    escalaDejarConsumo: "",
-    porcentajeSalario: "",
-    cantDejarConsumo: "",
-    maxPeriodoAbst: "",
-    razonAbstinencia: "",
-    infAdicional: "",
+  const oNewAspectoConsumo = {
+    problemadSalud: "N/A",
+    consumoMedicamento: "N/A",
+    razonConsumoInicial: "N/A",
+    edadConsumo: "N/A",
+    razonProblematica: "N/A",
+    edadProblematica: "N/A",
+    frecuenciaConsumo: "N/A",
+    cantidadConsumo: "N/A",
+    tiempoConsumo: "N/A",
+    lapsoConsumo: "N/A",
+    duracionEpisodio: "N/A",
+    consumoSemanal: "N/A",
+    razonDejarConsumo: "N/A",
+    escalaDejarConsumo: "N/A",
+    porcentajeSalario: "N/A",
+    cantDejarConsumo: "N/A",
+    maxPeriodoAbst: "N/A",
+    razonAbstinencia: "N/A",
+    infAdicional: "N/A",
     isActive: 1,
-    ControlConsumo: {
-      nombre: "",
-    },
-    ImporanciaConsumo: {
-      nombre: "",
-    },
-    NivelProblematica: {
-      nombre: "",
-    },
+    nivelProblematica: "",
+    importanciaConsumo: "",
+    ControlConsumo: "",
     Conflictos: {
-      diasNoTrabajados: "",
-      cantPerdidaEmpleo: "",
-      cantArrestos: "",
+      diasNoTrabajados: "N/A",
+      cantPerdidaEmpleo: "N/A",
+      cantArrestos: "N/A",
     },
     Hospitalizacion: {
-      cantVisitas: "",
-      diasInternado: "",
-      condicion: "",
-      medidas: "",
+      cantVisitas: "N/A",
+      diasInternado: "N/A",
+      condicion: "N/A",
+      medidas: "N/A",
     },
-    ProblemasFam: {
-      nombre: "",
-    },
-    ProblemasPareja: {
-      nombre: "",
-    },
-    ProblemasSociales: {
-      nombre: "",
-    },
-    ProblemasLaboral: {
-      nombre: "",
-    },
-    ProblemasLegales: {
-      nombre: "",
-    },
-    ProblemasSalud: {
-      nombre: "",
-    },
+    ProblemasFam: ["N/A"],
+    ProblemasPareja: ["N/A"],
+    ProblemasSociales: ["N/A"],
+    ProblemasLaboral: ["N/A"],
+    ProblemasLegales: ["N/A"],
+    ProblemasSalud: ["N/A"],
   };
 
   const result = await oCollection.insertOne(oNewAspectoConsumo);
-  console.log(result.insertedId, "==1==");
   return result.insertedId;
 };
 module.exports = {
