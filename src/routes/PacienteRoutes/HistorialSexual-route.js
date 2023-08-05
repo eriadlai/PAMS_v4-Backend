@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const oHistorialSexual = require("../controller/HistorialSexual-controller");
-const oMiddleware = require("../helpers/auth");
+const oHistorialSexual = require("../../controller/PacienteControllers/HistorialSexual-controller");
+const oMiddleware = require("../../helpers/auth");
 
 router.post(
   "/byid",

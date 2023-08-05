@@ -9,15 +9,16 @@ const cors = require("cors");
  */
 const oUsuarioRoute = require("./routes/Usuario-route");
 const oRolesRoute = require("./routes/Roles-route");
-const oPacienteRoute = require("./routes/Paciente-route");
-const oAntecedenteClinicoRoute = require("./routes/AntecedentesClinicos-route");
-const oAntecedenteFamiliaresRoute = require("./routes/AntecedentesFamiliares-route");
-const oCirculoSocialRoute = require("./routes/CirculoSocial-route");
-const oProblematicaRoute = require("./routes/Problematica-route");
-const oEstadoMentalRoute = require("./routes/EstadoMental-route");
-const oHabitosRoute = require("./routes/Habitos-route");
-const oHistorialSexualRoute = require("./routes/HistorialSexual-route");
-const oCasaRoute = require("./routes/Casa-route");
+const oPacienteRoute = require("./routes/PacienteRoutes/Paciente-route");
+const oAntecedenteClinicoRoute = require("./routes/PacienteRoutes/AntecedentesClinicos-route");
+const oAntecedenteFamiliaresRoute = require("./routes/PacienteRoutes/AntecedentesFamiliares-route");
+const oCirculoSocialRoute = require("./routes/PacienteRoutes/CirculoSocial-route");
+const oProblematicaRoute = require("./routes/PacienteRoutes/Problematica-route");
+const oEstadoMentalRoute = require("./routes/PacienteRoutes/EstadoMental-route");
+const oHabitosRoute = require("./routes/PacienteRoutes/Habitos-route");
+const oHistorialSexualRoute = require("./routes/PacienteRoutes/HistorialSexual-route");
+const oCasaRoute = require("./routes/PacienteRoutes/Casa-route");
+const oFamiliarRoute = require("./routes/PacienteRoutes/Familiar-route");
 /*
  * CONFIGURACION GENERAL
  */
@@ -36,4 +37,5 @@ app.use("/estadoMental", oEstadoMentalRoute);
 app.use("/habitos", oHabitosRoute);
 app.use("/historialSexual", oHistorialSexualRoute);
 app.use("/casa", oCasaRoute);
+app.use("/familiar", oFamiliarRoute);
 app.listen(port, () => console.log(`SERVIDOR ACTIVO EN PUERTO: ${port}`));

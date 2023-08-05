@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const oAntecedentesFamiliares = require("../controller/AntecedentesFamiliares-controller");
-const oMiddleware = require("../helpers/auth");
+const oAntecedentesFamiliares = require("../../controller/PacienteControllers/AntecedentesFamiliares-controller");
+const oMiddleware = require("../../helpers/auth");
 
 router.post(
   "/byid",

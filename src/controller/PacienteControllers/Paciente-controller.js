@@ -1,6 +1,6 @@
-const { oMongoDB } = require("../database");
+const { oMongoDB } = require("../../database");
 const { ObjectId } = require("mongodb");
-const oFunctions = require("../helpers/functions");
+const oFunctions = require("../../helpers/functions");
 
 const getAllPacientes = async (req, res) => {
   const { oUserRol, oUserID } = req.body;
@@ -46,6 +46,7 @@ const updatePaciente = async (req, res) => {
     estadoCivil,
     nivelEscolar,
     religion,
+    Sustancia,
     oUserRol,
     oUserID,
   } = req.body;
@@ -63,6 +64,7 @@ const updatePaciente = async (req, res) => {
       estadoCivil: estadoCivil,
       nivelEscolar: nivelEscolar,
       religion: religion,
+      Sustancia: Sustancia,
     },
   };
   let oCollection = await oMongoDB().collection("Paciente");

@@ -1,26 +1,26 @@
-const { oMongoDB } = require("../database");
+const { oMongoDB } = require("../../database");
 const { ObjectId } = require("mongodb");
-const oFunctions = require("../helpers/functions");
+const oFunctions = require("../../helpers/functions");
 
-const getOneAntecedentesClinicos = async (req, res) => {
+const getFamiliar = async (req, res) => {
   const { oID, oUserRol, oUserID } = req.body;
   let oCollection = await oMongoDB().collection("Paciente");
   let oQuery = { _id: new ObjectId(oID), isActive: 1 };
   let oResult = await oCollection.findOne(oQuery, {
     projection: {
-      AntecedentesClinicos: 1,
+      Familiar: 1,
     },
   });
   oFunctions.resetToken(oUserRol, oUserID);
   if (!oResult) res.send("NOT FOUND").status(404);
   else res.send(oResult).status(200);
 };
-const updateAntecedentesClinicos = async (req, res) => {
-  const { oID, oUserRol, oUserID, AntecedentesClinicos } = req.body;
+const updateFamiliar = async (req, res) => {
+  const { oID, oUserRol, oUserID, Familiar } = req.body;
   const oQuery = { _id: new ObjectId(oID) };
   const oUpdate = {
     $set: {
-      AntecedentesClinicos: AntecedentesClinicos,
+      Familiar: Familiar,
     },
   };
   let oCollection = await oMongoDB().collection("Paciente");
@@ -29,6 +29,6 @@ const updateAntecedentesClinicos = async (req, res) => {
   res.send(oResult).status(200);
 };
 module.exports = {
-  getOneAntecedentesClinicos,
-  updateAntecedentesClinicos,
+  getFamiliar,
+  updateFamiliar,
 };

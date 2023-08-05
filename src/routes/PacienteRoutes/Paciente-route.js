@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const oPacienteController = require("../controller/Paciente-controller");
-const oMiddleware = require("../helpers/auth");
+const oPacienteController = require("../../controller/PacienteControllers/Paciente-controller");
+const oMiddleware = require("../../helpers/auth");
 
 router.post("/all", oMiddleware.adminAuth, oPacienteController.getAllPacientes);
 router.post("/byid", oMiddleware.adminAuth, oPacienteController.getOnePaciente);
