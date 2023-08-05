@@ -11,10 +11,11 @@ const getAllPacientes = async (req, res) => {
   res.send(oResult).status(200);
 };
 const getOnePaciente = async (req, res) => {
-  const { oID } = req.body;
+  const { oID, oUserRol, oUserID } = req.body;
   let oCollection = await oMongoDB().collection("Paciente");
   let oQuery = { _id: new ObjectId(oID), isActive: 1 };
   let oResult = await oCollection.findOne(oQuery);
+  oFunctions.resetToken(oUserRol, oUserID);
   if (!oResult) res.send("NOT FOUND").status(404);
   else res.send(oResult).status(200);
 };
