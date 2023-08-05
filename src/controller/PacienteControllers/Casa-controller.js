@@ -1,26 +1,26 @@
-const { oMongoDB } = require("../database");
+const { oMongoDB } = require("../../database");
 const { ObjectId } = require("mongodb");
-const oFunctions = require("../helpers/functions");
+const oFunctions = require("../../helpers/functions");
 
-const getProblematica = async (req, res) => {
+const getCasa = async (req, res) => {
   const { oID, oUserRol, oUserID } = req.body;
   let oCollection = await oMongoDB().collection("Paciente");
   let oQuery = { _id: new ObjectId(oID), isActive: 1 };
   let oResult = await oCollection.findOne(oQuery, {
     projection: {
-      Problematica: 1,
+      Casa: 1,
     },
   });
   oFunctions.resetToken(oUserRol, oUserID);
   if (!oResult) res.send("NOT FOUND").status(404);
   else res.send(oResult).status(200);
 };
-const updateProblematica = async (req, res) => {
-  const { oID, oUserRol, oUserID, Problematica } = req.body;
+const updateCasa = async (req, res) => {
+  const { oID, oUserRol, oUserID, Casa } = req.body;
   const oQuery = { _id: new ObjectId(oID) };
   const oUpdate = {
     $set: {
-      Problematica: Problematica,
+      Casa: Casa,
     },
   };
   let oCollection = await oMongoDB().collection("Paciente");
@@ -29,6 +29,6 @@ const updateProblematica = async (req, res) => {
   res.send(oResult).status(200);
 };
 module.exports = {
-  getProblematica,
-  updateProblematica,
+  getCasa,
+  updateCasa,
 };

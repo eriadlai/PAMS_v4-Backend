@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const oCirculoSocialRoute = require("../controller/CirculoSocial-controller");
-const oMiddleware = require("../helpers/auth");
+const oCirculoSocialRoute = require("../../controller/PacienteControllers/CirculoSocial-controller");
+const oMiddleware = require("../../helpers/auth");
 
 router.post(
   "/byid",
