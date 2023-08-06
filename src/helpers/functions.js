@@ -36,7 +36,6 @@ const resetToken = async (oRol, oID) => {
   return oToken;
 };
 const setAspectoConsumo = async () => {
-  console.log("ENTRO EN LA FUNCION====");
   let oCollection = await oMongoDB().collection("AspectoConsumo");
   const oNewAspectoConsumo = {
     problemadSalud: "N/A",
@@ -84,10 +83,22 @@ const setAspectoConsumo = async () => {
   const result = await oCollection.insertOne(oNewAspectoConsumo);
   return result.insertedId;
 };
+const setReporteSesion = async () => {
+  let oCollection = await oMongoDB.collection("ReporteSesion");
+  const oNewReporteSesion = {
+    diagnostico: "N/A",
+    observaciones: "N/A",
+    objetivoClinico: "N/A",
+    isActive: 1,
+  };
+  const result = await oCollection.insertOne(oNewReporteSesion);
+  return result.insertedId;
+};
 module.exports = {
   getTokenUsuario,
   updateTokenUsuario,
   getRolInfo,
   resetToken,
   setAspectoConsumo,
+  setReporteSesion,
 };
