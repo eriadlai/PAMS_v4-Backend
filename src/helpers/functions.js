@@ -23,6 +23,16 @@ const updateTokenUsuario = async (oID, oToken) => {
   let oCollection = await oMongoDB().collection("Usuario");
   await oCollection.updateOne(oQuery, oUpdate);
 };
+const setLog = async (oID, oAccion) => {
+  let oCollection = await oMongoDB().collection("Log");
+  let oNewLog = {
+    accion: oAccion,
+    fecha: new Date().toJSON().slice(0, 10),
+    isActive: 1,
+    Usuario: new ObjectId(oID),
+  };
+  await oCollection.insertOne(oNewLog);
+};
 const getRolInfo = async (oID) => {
   let oCollection = await oMongoDB().collection("Roles");
   let oQuery = { _id: oID, isActive: 1 };
@@ -101,4 +111,5 @@ module.exports = {
   resetToken,
   setAspectoConsumo,
   setReporteSesion,
+  setLog,
 };

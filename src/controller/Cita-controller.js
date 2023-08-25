@@ -1,6 +1,7 @@
 const { ObjectId } = require("mongodb");
 const { oMongoDB } = require("../database");
 const oFunctions = require("../helpers/functions");
+const oRegistros = require("../helpers/actionsLog");
 
 const getAllCita = async (req, res) => {
   const { oUserRol, oUserID } = req.body;
@@ -38,6 +39,7 @@ const getAllCita = async (req, res) => {
   });
   oResult.Usuario = oResultUsuario.nombre + " " + oResultUsuario.apellido;
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(oUserID, oRegistros.oActions.GET_CITAS);
   res.send(oResult).status(200);
 };
 const getOneCita = async (req, res) => {
@@ -68,6 +70,7 @@ const getOneCita = async (req, res) => {
     }
   );
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(oUserID, oRegistros.oActions.GET_ONE_CITA);
   if (!oResult) res.send("NOT FOUND").status(404);
   else res.send(oResult).status(200);
 };
@@ -94,6 +97,7 @@ const getCitaByPacienteId = async (req, res) => {
   });
   oResult.Usuario = oResultUsuario.nombre + " " + oResultUsuario.apellido;
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(oUserID, oRegistros.oActions.GET_CITA_BY_PACIENTE);
   if (!oResult) res.send("NOT FOUND").status(404);
   else res.send(oResult).status(200);
 };
@@ -123,6 +127,7 @@ const getCitaReporteByPacienteId = async (req, res) => {
     }
   );
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(oUserID, oRegistros.oActions.GET_CITA_BY_PACIENTE);
   if (!oResult) res.send("NOT FOUND").status(404);
   else res.send(oResult).status(200);
 };
@@ -133,6 +138,7 @@ const insertCita = async (req, res) => {
   oNewCita.ReporteUsuario = await oFunctions.setReporteSesion();
   let oResult = await oCollection.insertOne(oNewCita);
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(oUserID, oRegistros.oActions.INSERT_CITA);
   res.send(oResult).status(204);
 };
 const updateCita = async (req, res) => {
@@ -148,6 +154,7 @@ const updateCita = async (req, res) => {
   let oCollection = await oMongoDB().collection("Cita");
   let oResult = await oCollection.updateOne(oQuery, oUpdate);
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(oUserID, oRegistros.oActions.UPDATE_CITA);
   res.send(oResult).status(200);
 };
 const updateEstadoCita = async (req, res) => {
@@ -161,6 +168,7 @@ const updateEstadoCita = async (req, res) => {
   let oCollection = await oMongoDB().collection("Cita");
   let oResult = await oCollection.updateOne(oQuery, oUpdate);
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(oUserID, oRegistros.oActions.UPDATE_ESTADO_CITA);
   res.send(oResult).status(200);
 };
 module.exports = {
