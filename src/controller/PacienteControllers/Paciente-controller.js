@@ -1,21 +1,35 @@
 const { oMongoDB } = require("../../database");
 const { ObjectId } = require("mongodb");
 const oFunctions = require("../../helpers/functions");
+const oRegistros = require("../../helpers/actionsLog");
 
 const getAllPacientes = async (req, res) => {
   const { oUserRol, oUserID } = req.body;
   let oCollection = await oMongoDB().collection("Paciente");
   let oQuery = { isActive: 1 };
-  let oResult = await oCollection.find(oQuery, {}).limit(50).toArray();
+  let oResult = await oCollection
+    .find(oQuery, {
+      projection: {
+        isActive: 0,
+      },
+    })
+    .limit(50)
+    .toArray();
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(oUserID, oRegistros.oActions.GET_PACIENTES);
   res.send(oResult).status(200);
 };
 const getOnePaciente = async (req, res) => {
   const { oID, oUserRol, oUserID } = req.body;
   let oCollection = await oMongoDB().collection("Paciente");
   let oQuery = { _id: new ObjectId(oID), isActive: 1 };
-  let oResult = await oCollection.findOne(oQuery);
+  let oResult = await oCollection.findOne(oQuery, {
+    projection: {
+      isActive: 0,
+    },
+  });
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(oUserID, oRegistros.oActions.GET_ONE_PACIENTE);
   if (!oResult) res.send("NOT FOUND").status(404);
   else res.send(oResult).status(200);
 };
@@ -31,6 +45,7 @@ const insertPaciente = async (req, res) => {
   oNewPaciente.AspectoConsumo = oAspectoConsumoID;
   let oResult = await oCollection.insertOne(oNewPaciente);
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(oUserID, oRegistros.oActions.INSERT_PACIENTE);
   res.send(oResult).status(204);
 };
 const updatePaciente = async (req, res) => {
@@ -70,6 +85,7 @@ const updatePaciente = async (req, res) => {
   let oCollection = await oMongoDB().collection("Paciente");
   let oResult = await oCollection.updateOne(oQuery, oUpdate);
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(oUserID, oRegistros.oActions.UPDATE_PACIENTE);
   res.send(oResult).status(200);
 };
 const deletePaciente = async (req, res) => {
@@ -93,6 +109,7 @@ const deletePaciente = async (req, res) => {
   );
   console.log(oResult2);
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(oUserID, oRegistros.oActions.DELETE_PACIENTE);
   res.send(oResult).status(200);
 };
 module.exports = {

@@ -1,6 +1,7 @@
 const { oMongoDB } = require("../../database");
 const { ObjectId } = require("mongodb");
 const oFunctions = require("../../helpers/functions");
+const oRegistros = require("../../helpers/actionsLog");
 
 const getOneAntecedentesFamiliares = async (req, res) => {
   const { oID, oUserRol, oUserID } = req.body;
@@ -12,6 +13,7 @@ const getOneAntecedentesFamiliares = async (req, res) => {
     },
   });
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(oUserID, oRegistros.oActions.GET_ANTECEDENTES_FAMILIARES);
   if (!oResult) res.send("NOT FOUND").status(404);
   else res.send(oResult).status(200);
 };
@@ -26,6 +28,10 @@ const updateAntecedentesFamiliares = async (req, res) => {
   let oCollection = await oMongoDB().collection("Paciente");
   let oResult = await oCollection.updateOne(oQuery, oUpdate);
   oFunctions.resetToken(oUserRol, oUserID);
+  oFunctions.setLog(
+    oUserID,
+    oRegistros.oActions.UPDATE_ANTECEDENTES_FAMILIARES
+  );
   res.send(oResult).status(200);
 };
 module.exports = {

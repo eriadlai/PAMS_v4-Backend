@@ -19,6 +19,8 @@ const oHabitosRoute = require("./routes/PacienteRoutes/Habitos-route");
 const oHistorialSexualRoute = require("./routes/PacienteRoutes/HistorialSexual-route");
 const oCasaRoute = require("./routes/PacienteRoutes/Casa-route");
 const oFamiliarRoute = require("./routes/PacienteRoutes/Familiar-route");
+const oAspectoConsumoRoute = require("./routes/AspectoConsumoRoutes/AspectoConsumo-route");
+const oCitaRoute = require("./routes/Cita-route");
 /*
  * CONFIGURACION GENERAL
  */
@@ -38,4 +40,6 @@ app.use("/habitos", oHabitosRoute);
 app.use("/historialSexual", oHistorialSexualRoute);
 app.use("/casa", oCasaRoute);
 app.use("/familiar", oFamiliarRoute);
+app.use("/aspectoConsumo", oAspectoConsumoRoute);
+app.use("/cita", oCitaRoute);
 app.listen(port, () => console.log(`SERVIDOR ACTIVO EN PUERTO: ${port}`));
