@@ -3,6 +3,7 @@ const { oMongoDB } = require("../database");
 const { verifyPassword, hashPassword } = require("../helpers/hashing");
 const oFunctions = require("../helpers/functions");
 const oRegistros = require("../helpers/actionsLog");
+
 const getAllUsuarios = async (req, res) => {
   const { oUserRol, oUserID } = req.body;
   let oCollection = await oMongoDB().collection("Usuario");

@@ -21,9 +21,5 @@ router.patch(
   oUsuarioController.updatePassword
 );
 router.post("/login", oUsuarioController.getLogin);
-router.post(
-  "/token/byid",
-  oMiddleware.adminAuth,
-  oUsuarioController.getTokenByID
-);
+router.post("/token/byid", oUsuarioController.getTokenByID);
 module.exports = router;
