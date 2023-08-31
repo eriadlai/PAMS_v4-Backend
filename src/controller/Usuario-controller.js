@@ -18,8 +18,11 @@ const getAllUsuarios = async (req, res) => {
     const oGetRol = await oFunctions.getRolInfo(oResult[i].Roles);
     oResult[i].Roles = oGetRol.nombre;
   }
-  oResult.token = oFunctions.resetToken(oUserRol, oUserID);
-  oFunctions.setLog(oUserID, oRegistros.oActions.GET_USUARIOS);
+  oResult[oResult.length] = {
+    _id: oResult.length,
+    token: await oFunctions.resetToken(oUserRol, oUserID),
+  };
+  await oFunctions.setLog(oUserID, oRegistros.oActions.GET_USUARIOS);
   res.send(oResult).status(200);
 };
 const getOneUsuario = async (req, res) => {
