@@ -13,7 +13,12 @@ const getAllUsuarios = async (req, res) => {
     .project({ password: 0, isActive: 0, token: 0 })
     .limit(50)
     .toArray();
-  oFunctions.resetToken(oUserRol, oUserID);
+
+  for (let i = 0; i < oResult.length; i++) {
+    const oGetRol = await oFunctions.getRolInfo(oResult[i].Roles);
+    oResult[i].Roles = oGetRol.nombre;
+  }
+  oResult.token = oFunctions.resetToken(oUserRol, oUserID);
   oFunctions.setLog(oUserID, oRegistros.oActions.GET_USUARIOS);
   res.send(oResult).status(200);
 };
@@ -27,7 +32,7 @@ const getOneUsuario = async (req, res) => {
       isActive: 0,
     },
   });
-  oFunctions.resetToken(oUserRol, oUserID);
+  oResult.token = oFunctions.resetToken(oUserRol, oUserID);
   oFunctions.setLog(oUserID, oRegistros.oActions.GET_ONE_USUARIO);
   if (!oResult) res.send("NOT FOUND").status(404);
   else res.send(oResult).status(200);
@@ -43,7 +48,7 @@ const insertUsuario = async (req, res) => {
   oNewUsuario.password = await hashPassword(oNewUsuario.password);
   oNewUsuario.token = "";
   let oResult = await oCollection.insertOne(oNewUsuario);
-  oFunctions.resetToken(oUserRol, oUserID);
+  oResult.token = oFunctions.resetToken(oUserRol, oUserID);
   oFunctions.setLog(oUserID, oRegistros.oActions.INSERT_USUARIO);
   res.send(oResult).status(204);
 };
@@ -59,7 +64,7 @@ const updateUsuario = async (req, res) => {
   };
   let oCollection = await oMongoDB().collection("Usuario");
   let oResult = await oCollection.updateOne(oQuery, oUpdate);
-  oFunctions.resetToken(oUserRol, oUserID);
+  oResult.token = oFunctions.resetToken(oUserRol, oUserID);
   oFunctions.setLog(oUserID, oRegistros.oActions.UPDATE_USUARIO);
   res.send(oResult).status(200);
 };
@@ -74,7 +79,7 @@ const updatePassword = async (req, res) => {
   };
   let oCollection = await oMongoDB().collection("Usuario");
   let oResult = await oCollection.updateOne(oQuery, oUpdate);
-  oFunctions.resetToken(oUserRol, oUserID);
+  oResult.token = oFunctions.resetToken(oUserRol, oUserID);
   oFunctions.setLog(oUserID, oRegistros.oActions.UPDDATE_PASSWORD);
   res.send(oResult).status(200);
 };
@@ -88,7 +93,7 @@ const deleteUsuario = async (req, res) => {
   };
   let oCollection = await oMongoDB().collection("Usuario");
   let oResult = await oCollection.updateOne(oQuery, oUpdate);
-  oFunctions.resetToken(oUserRol, oUserID);
+  oResult.token = oFunctions.resetToken(oUserRol, oUserID);
   oFunctions.setLog(oUserID, oRegistros.oActions.DELETE_USUARIO);
   res.send(oResult).status(200);
 };
@@ -118,8 +123,9 @@ const getLogin = async (req, res) => {
   }
   const oRolInfo = await oFunctions.getRolInfo(oResult.Roles);
   oResult.Roles = oRolInfo.nombre;
-  oFunctions.resetToken(oResult.Roles, oResult._id);
+  oResult.token = await oFunctions.resetToken(oResult.Roles, oResult._id);
   oFunctions.setLog(oResult._id, "INICIO DE SESION");
+  delete oResult.password;
   res.send(oResult).status(200);
 };
 const getTokenByID = async (req, res) => {

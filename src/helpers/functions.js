@@ -35,7 +35,7 @@ const setLog = async (oID, oAccion) => {
 };
 const getRolInfo = async (oID) => {
   let oCollection = await oMongoDB().collection("Roles");
-  let oQuery = { _id: oID, isActive: 1 };
+  let oQuery = { _id: new ObjectId(oID), isActive: 1 };
   let oResult = await oCollection.findOne(oQuery);
   if (!oResult) res.send("NOT FOUND").status(404);
   else return oResult;
