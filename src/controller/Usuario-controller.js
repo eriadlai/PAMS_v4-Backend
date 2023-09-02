@@ -51,7 +51,7 @@ const insertUsuario = async (req, res) => {
   oNewUsuario.password = await hashPassword(oNewUsuario.password);
   oNewUsuario.token = "";
   let oResult = await oCollection.insertOne(oNewUsuario);
-  oResult.token = oFunctions.resetToken(oUserRol, oUserID);
+  oResult.token = await oFunctions.resetToken(oUserRol, oUserID);
   oFunctions.setLog(oUserID, oRegistros.oActions.INSERT_USUARIO);
   res.send(oResult).status(204);
 };
