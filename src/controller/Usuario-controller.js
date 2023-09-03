@@ -56,18 +56,19 @@ const insertUsuario = async (req, res) => {
   res.send(oResult).status(204);
 };
 const updateUsuario = async (req, res) => {
-  const { oID, nombre, apellido, correo, oUserRol, oUserID } = req.body;
+  const { oID, nombre, apellido, correo, Roles, oUserRol, oUserID } = req.body;
   const oQuery = { _id: new ObjectId(oID) };
   const oUpdate = {
     $set: {
       nombre: nombre,
       apellido: apellido,
       correo: correo,
+      Roles: new ObjectId(Roles),
     },
   };
   let oCollection = await oMongoDB().collection("Usuario");
   let oResult = await oCollection.updateOne(oQuery, oUpdate);
-  oResult.token = oFunctions.resetToken(oUserRol, oUserID);
+  oResult.token = await oFunctions.resetToken(oUserRol, oUserID);
   oFunctions.setLog(oUserID, oRegistros.oActions.UPDATE_USUARIO);
   res.send(oResult).status(200);
 };
