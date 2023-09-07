@@ -15,8 +15,13 @@ const getAllPacientes = async (req, res) => {
     })
     .limit(50)
     .toArray();
-  oFunctions.resetToken(oUserRol, oUserID);
-  oFunctions.setLog(oUserID, oRegistros.oActions.GET_PACIENTES);
+
+  oResult[oResult.length] = {
+    _id: oResult.length,
+    token: await oFunctions.resetToken(oUserRol, oUserID),
+  };
+
+  await oFunctions.setLog(oUserID, oRegistros.oActions.GET_PACIENTES);
   res.send(oResult).status(200);
 };
 const getOnePaciente = async (req, res) => {
