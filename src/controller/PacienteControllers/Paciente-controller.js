@@ -49,8 +49,8 @@ const insertPaciente = async (req, res) => {
   oNewPaciente.noExpediente = (await oCollection.countDocuments()) + 1;
   oNewPaciente.AspectoConsumo = oAspectoConsumoID;
   let oResult = await oCollection.insertOne(oNewPaciente);
-  oFunctions.resetToken(oUserRol, oUserID);
-  oFunctions.setLog(oUserID, oRegistros.oActions.INSERT_PACIENTE);
+  oResult.Roles = await oFunctions.resetToken(oUserRol, oUserID);
+  await oFunctions.setLog(oUserID, oRegistros.oActions.INSERT_PACIENTE);
   res.send(oResult).status(204);
 };
 const updatePaciente = async (req, res) => {

@@ -120,7 +120,6 @@ const getLogin = async (req, res) => {
   if (!oResult) res.send("NOT FOUND").status(404);
   else hashedPassword = oResult.password;
   const isValid = await verifyPassword(oPass, hashedPassword);
-  console.log(isValid);
   if (!isValid) {
     res.send("401").status(401);
     return;
