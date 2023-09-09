@@ -46,6 +46,7 @@ const insertPaciente = async (req, res) => {
   delete oNewPaciente.oUserID;
   delete oNewPaciente.oUserRol;
   oNewPaciente.fechaRegistro = new Date().toJSON().slice(0, 10);
+  console.log(oNewPaciente.fechaRegistro);
   oNewPaciente.noExpediente = (await oCollection.countDocuments()) + 1;
   oNewPaciente.AspectoConsumo = oAspectoConsumoID;
   let oResult = await oCollection.insertOne(oNewPaciente);
@@ -66,7 +67,6 @@ const updatePaciente = async (req, res) => {
     estadoCivil,
     nivelEscolar,
     religion,
-    Sustancia,
     oUserRol,
     oUserID,
   } = req.body;
@@ -84,13 +84,12 @@ const updatePaciente = async (req, res) => {
       estadoCivil: estadoCivil,
       nivelEscolar: nivelEscolar,
       religion: religion,
-      Sustancia: Sustancia,
     },
   };
   let oCollection = await oMongoDB().collection("Paciente");
   let oResult = await oCollection.updateOne(oQuery, oUpdate);
-  oFunctions.resetToken(oUserRol, oUserID);
-  oFunctions.setLog(oUserID, oRegistros.oActions.UPDATE_PACIENTE);
+  oResult.token = await oFunctions.resetToken(oUserRol, oUserID);
+  await oFunctions.setLog(oUserID, oRegistros.oActions.UPDATE_PACIENTE);
   res.send(oResult).status(200);
 };
 const deletePaciente = async (req, res) => {

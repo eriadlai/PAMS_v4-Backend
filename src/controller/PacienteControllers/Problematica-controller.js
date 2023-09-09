@@ -18,11 +18,12 @@ const getProblematica = async (req, res) => {
   else res.send(oResult).status(200);
 };
 const updateProblematica = async (req, res) => {
-  const { oID, oUserRol, oUserID, Problematica } = req.body;
+  const { oID, oUserRol, oUserID, Problematica, Sustancia } = req.body;
   const oQuery = { _id: new ObjectId(oID) };
   const oUpdate = {
     $set: {
       Problematica: Problematica,
+      Sustancia: Sustancia,
     },
   };
   let oCollection = await oMongoDB().collection("Paciente");
